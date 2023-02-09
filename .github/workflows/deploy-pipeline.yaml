@@ -61,11 +61,11 @@ jobs:
           draft: false
           prerelease: false
       - name: download artifact
-        uses: actions/download_artifact@v2
+        uses: actions/download-artifact@v2
         with:
           name: zipped-bundle
       - name: upload release asset
-        uses: actions/upload_release_asset@v1
+        uses: actions/upload-release-asset@v1
         env: 
           GITHUB_TOKEN: ${{ secrets.github_token }}
         with: 
@@ -73,6 +73,3 @@ jobs:
           asset_path: ./${{ github.sha }}.zip
           asset_name: source_code_with_libraries.zip
           asset_content_type: application/zip
-          
-          
-          
