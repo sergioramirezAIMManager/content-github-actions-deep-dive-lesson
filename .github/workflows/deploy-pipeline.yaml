@@ -47,18 +47,32 @@ jobs:
   
   publish:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: create release
-        uses: softprops/action-gh-release@v1
+        id: create-release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.github_token }}
         with:
           tag_name: ${{ github.run_number }}
-          name: Release from ${{ github.run_number }}
+          release_name: Release from ${{ github.run_number }}
           body: New release for ${{ github.sha }}. Release notes on the documentation site
           draft: false
           prerelease: false
-          token: ${{ secrets.github_token }}
+      - name: download artifact
+        uses: actions/download_artifact@v2
+        with:
+          name: zipped-bundle
+      - name: upload release asset
+        uses: actions/upload_release_asset@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with: 
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: ./${{ github.sha }}.zip
+          asset_name: source_code_with_libraries.zip
+          asset_content_type: application/zip
           
           
           
