@@ -58,7 +58,7 @@ jobs:
           body: New release for ${{ github.sha }}. Release notes on the documentation site
           draft: false
           prerelease: false
-          token: ${{ GITHUB_TOKEN }}
+          token: ${{ secrets.github_token }}
           
           
           
